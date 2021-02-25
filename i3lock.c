@@ -715,9 +715,13 @@ static void handle_key_press(xcb_key_press_event_t *event) {
                 system("playerctl next");
                 return;
             case XKB_KEY_XF86AudioMute:
+                system("pactl set-sink-mute @DEFAULT_SINK@ toggle");
+                return;
             case XKB_KEY_XF86AudioLowerVolume:
+                system("pactl set-sink-volume @DEFAULT_SINK@ -2%");
+                return;
             case XKB_KEY_XF86AudioRaiseVolume:
-                xcb_send_event(conn, true, screen->root, XCB_EVENT_MASK_BUTTON_PRESS, (char *)event);
+                system("pactl set-sink-volume @DEFAULT_SINK@ +2%");
                 return;
         }
     }
@@ -726,10 +730,10 @@ static void handle_key_press(xcb_key_press_event_t *event) {
     if (pass_screen_keys) {
         switch(ksym) {
             case XKB_KEY_XF86MonBrightnessUp:
-                system("brightnessctl s +2%");
+                system("brightnessctl s +5%");
                 return;
             case XKB_KEY_XF86MonBrightnessDown:
-                system("brightnessctl s 2%-");
+                system("brightnessctl s 5%-");
                 return;
         }
     }
@@ -752,10 +756,10 @@ static void handle_key_press(xcb_key_press_event_t *event) {
                 system("pactl set-sink-mute @DEFAULT_SINK@ toggle");
                 return;
             case XKB_KEY_XF86AudioLowerVolume:
-                system("pactl set-sink-volume @DEFAULT_SINK@ -5%");
+                system("pactl set-sink-volume @DEFAULT_SINK@ -2%");
                 return;
             case XKB_KEY_XF86AudioRaiseVolume:
-                system("pactl set-sink-volume @DEFAULT_SINK@ +5%");
+                system("pactl set-sink-volume @DEFAULT_SINK@ +2%");
                 return;
         }
     }
